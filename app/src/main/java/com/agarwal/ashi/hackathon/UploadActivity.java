@@ -15,16 +15,21 @@ import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.location.*;
+import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -44,6 +49,7 @@ public class UploadActivity extends Activity {
 	private ImageView imgPreview;
 	private VideoView vidPreview;
 	private Button btnUpload;
+	TextView latitude,longitude;
 	long totalSize = 0;
 
 	@Override
@@ -82,8 +88,52 @@ public class UploadActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
+				//Toast.makeText(UploadActivity.this, "i m clicked", Toast.LENGTH_SHORT).show();
 				// uploading the file to server
+//				LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+//				LocationListener locationListener = new LocationListener() {
+//					@Override
+//					public void onLocationChanged(Location location) {
+//						String lat = Double.toString(location.getLatitude());
+//						String lon = Double.toString(location.getLongitude());
+//						latitude=findViewById(R.id.latitude);
+//						longitude=findViewById(R.id.longitude);
+//						latitude.setText("latitude is"+lat);
+//						longitude.setText("longitude is"+lon);
+//					}
+//
+//					@Override
+//					public void onStatusChanged(String provider, int status, Bundle extras) {
+//
+//					}
+//
+//					@Override
+//					public void onProviderEnabled(String provider) {
+//
+//					}
+//
+//					@Override
+//					public void onProviderDisabled(String provider) {
+//
+//					}
+//				};
+//
+//				if (ActivityCompat.checkSelfPermission(UploadActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(UploadActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//					// TODO: Consider calling
+//					//    ActivityCompat#requestPermissions
+//					// here to request the missing permissions, and then overriding
+//					//   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+//					//                                          int[] grantResults)
+//					// to handle the case where the user grants the permission. See the documentation
+//					// for ActivityCompat#requestPermissions for more details.
+//					return;
+//				}
+//				locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
 				new UploadFileToServer().execute();
+
+
+
+
 			}
 		});
 

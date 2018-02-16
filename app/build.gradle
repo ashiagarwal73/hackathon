@@ -30,4 +30,5 @@ dependencies {
     implementation 'com.squareup.okhttp:okhttp:2.0.0'
     compile group: 'org.apache.httpcomponents', name: 'httpmime', version: '4.0-alpha3'
 
+    implementation 'com.google.android.gms:play-services-maps:11.8.0'
 }
