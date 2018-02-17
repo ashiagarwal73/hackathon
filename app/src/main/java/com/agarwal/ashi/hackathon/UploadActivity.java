@@ -35,6 +35,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
@@ -55,6 +56,7 @@ public class UploadActivity extends Activity {
 	private VideoView vidPreview;
 	private Button btnUpload;
 	TextView latitude,longitude;
+	EditText discription;
 	long totalSize = 0;
 	String lat;
 	String lon;
@@ -64,7 +66,7 @@ public class UploadActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_upload);
-
+		discription=findViewById(R.id.editText);
 		txtPercentage = (TextView) findViewById(R.id.txtPercentage);
 		btnUpload = (Button) findViewById(R.id.btnUpload);
 		progressBar = (ProgressBar) findViewById(R.id.progressBar);
@@ -239,6 +241,7 @@ public class UploadActivity extends Activity {
 				entity.addPart("Category", new StringBody(Category));
 					entity.addPart("Latitude", new StringBody(lat));
 					entity.addPart("Longitude", new StringBody(lon));
+					entity.addPart("Discription",new StringBody(discription.getText().toString()));
 
 				totalSize = entity.getContentLength();
 				httppost.setEntity(entity);

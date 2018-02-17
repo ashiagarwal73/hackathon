@@ -9,6 +9,7 @@
     <string name="title_activity_maps">Map</string>
     <string-array name="spinner_item">
         <item>CHOOSE YOUR CATEGORY</item>
+        <item>POLICE STATION</item>
         <item>RAILWAYS</item>
         <item>TOURISM</item>
         <item>ROAD ACCIDENTS</item>
