@@ -296,9 +296,6 @@ public class UploadActivity extends Activity {
 //						startActivity(intent);// do nothing
 						Intent intent=new Intent(UploadActivity.this,FetchData.class);
 						startActivity(intent);
-
-
-
 					}
 				});
 		AlertDialog alert = builder.create();
