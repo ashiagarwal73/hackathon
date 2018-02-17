@@ -2,6 +2,7 @@ package com.agarwal.ashi.hackathon;
 
 //import info.androidhive.camerafileupload.AndroidMultiPartEntity.ProgressListener;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 
@@ -40,6 +41,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
+
+import static java.lang.System.out;
 
 public class UploadActivity extends Activity {
 	// LogCat tag
@@ -167,8 +170,11 @@ public class UploadActivity extends Activity {
 			// down sizing image as it throws OutOfMemory Exception for larger
 			// images
 			options.inSampleSize = 8;
-
-			final Bitmap bitmap = BitmapFactory.decodeFile(filePath, options);
+			ByteArrayOutputStream os = new ByteArrayOutputStream();
+			Bitmap bitmap = BitmapFactory.decodeFile(filePath, options);
+			bitmap.compress(Bitmap.CompressFormat.PNG, 50,os );
+			byte[] array = os.toByteArray();
+			bitmap=BitmapFactory.decodeByteArray(array, 0, array.length);
 			imgPreview.setImageBitmap(bitmap);
 		} else {
 			imgPreview.setVisibility(View.GONE);
