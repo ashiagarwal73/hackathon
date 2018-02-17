@@ -55,11 +55,13 @@ public class UploadActivity extends Activity {
 	long totalSize = 0;
 	String lat;
 	String lon;
+	String Category;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_upload);
+
 		txtPercentage = (TextView) findViewById(R.id.txtPercentage);
 		btnUpload = (Button) findViewById(R.id.btnUpload);
 		progressBar = (ProgressBar) findViewById(R.id.progressBar);
@@ -69,12 +71,11 @@ public class UploadActivity extends Activity {
 		spinneruse.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
+				 Category= (String) adapterView.getItemAtPosition(i);
 			}
 
 			@Override
 			public void onNothingSelected(AdapterView<?> adapterView) {
-
 			}
 		});
 		// Changing action bar background color
@@ -98,57 +99,54 @@ public class UploadActivity extends Activity {
 			Toast.makeText(getApplicationContext(),
 					"Sorry, file path is missing!", Toast.LENGTH_LONG).show();
 		}
+		LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+		LocationListener locationListener = new LocationListener() {
+			@Override
+			public void onLocationChanged(Location location) {
+				final String lati = Double.toString(location.getLatitude());
+				final  String longi = Double.toString(location.getLongitude());
+				latitude=findViewById(R.id.latitude);
+				longitude=findViewById(R.id.longitude);
+				latitude.setText("latitude is"+lati);
+				longitude.setText("longitude is"+longi);
+				lat=lati;
+				lon=longi;
+			}
 
+			@Override
+			public void onStatusChanged(String provider, int status, Bundle extras) {
+
+			}
+
+			@Override
+			public void onProviderEnabled(String provider) {
+
+			}
+
+			@Override
+			public void onProviderDisabled(String provider) {
+
+			}
+		};
+
+		if (ActivityCompat.checkSelfPermission(UploadActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(UploadActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+			// TODO: Consider calling
+			//    ActivityCompat#requestPermissions
+			// here to request the missing permissions, and then overriding
+			//   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+			//                                          int[] grantResults)
+			// to handle the case where the user grants the permission. See the documentation
+			// for ActivityCompat#requestPermissions for more details.
+			return;
+		}
+		locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
 		btnUpload.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				//Toast.makeText(UploadActivity.this, "i m clicked", Toast.LENGTH_SHORT).show();
 				// uploading the file to server
-				LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-				LocationListener locationListener = new LocationListener() {
-					@Override
-					public void onLocationChanged(Location location) {
-						lat = Double.toString(location.getLatitude());
-						lon = Double.toString(location.getLongitude());
-						latitude=findViewById(R.id.latitude);
-						longitude=findViewById(R.id.longitude);
-						latitude.setText("latitude is"+lat);
-						longitude.setText("longitude is"+lon);
-					}
-
-					@Override
-					public void onStatusChanged(String provider, int status, Bundle extras) {
-
-					}
-
-					@Override
-					public void onProviderEnabled(String provider) {
-
-					}
-
-					@Override
-					public void onProviderDisabled(String provider) {
-
-					}
-				};
-
-				if (ActivityCompat.checkSelfPermission(UploadActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(UploadActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-					// TODO: Consider calling
-					//    ActivityCompat#requestPermissions
-					// here to request the missing permissions, and then overriding
-					//   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-					//                                          int[] grantResults)
-					// to handle the case where the user grants the permission. See the documentation
-					// for ActivityCompat#requestPermissions for more details.
-					return;
-				}
-				locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
 				new UploadFileToServer().execute();
-
-
-
-
 			}
 		});
 
@@ -165,12 +163,12 @@ public class UploadActivity extends Activity {
 			// bimatp factory
 			BitmapFactory.Options options = new BitmapFactory.Options();
 
+
 			// down sizing image as it throws OutOfMemory Exception for larger
 			// images
 			options.inSampleSize = 8;
 
 			final Bitmap bitmap = BitmapFactory.decodeFile(filePath, options);
-
 			imgPreview.setImageBitmap(bitmap);
 		} else {
 			imgPreview.setVisibility(View.GONE);
@@ -232,9 +230,9 @@ public class UploadActivity extends Activity {
 				entity.addPart("image", new FileBody(sourceFile));
 
 				// Extra parameters if you want to pass to server
-				entity.addPart("website",
-						new StringBody("www.androidhive.info"));
-				entity.addPart("email", new StringBody("abc@gmail.com"));
+				entity.addPart("Category", new StringBody(Category));
+					entity.addPart("Latitude", new StringBody(lat));
+					entity.addPart("Longitude", new StringBody(lon));
 
 				totalSize = entity.getContentLength();
 				httppost.setEntity(entity);
