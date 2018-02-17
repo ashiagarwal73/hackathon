@@ -29,6 +29,6 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     implementation 'com.squareup.okhttp:okhttp:2.0.0'
     compile group: 'org.apache.httpcomponents', name: 'httpmime', version: '4.0-alpha3'
-
+    compile 'com.squareup.picasso:picasso:2.5.2'
     implementation 'com.google.android.gms:play-services-maps:11.8.0'
 }

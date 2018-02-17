@@ -32,9 +32,11 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -42,7 +44,7 @@ import android.widget.VideoView;
 public class UploadActivity extends Activity {
 	// LogCat tag
 	private static final String TAG = MainActivity.class.getSimpleName();
-
+	Spinner spinneruse;
 	private ProgressBar progressBar;
 	private String filePath = null;
 	private TextView txtPercentage;
@@ -51,6 +53,8 @@ public class UploadActivity extends Activity {
 	private Button btnUpload;
 	TextView latitude,longitude;
 	long totalSize = 0;
+	String lat;
+	String lon;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +65,18 @@ public class UploadActivity extends Activity {
 		progressBar = (ProgressBar) findViewById(R.id.progressBar);
 		imgPreview = (ImageView) findViewById(R.id.imgPreview);
 		vidPreview = (VideoView) findViewById(R.id.videoPreview);
+		spinneruse = (Spinner)findViewById(R.id.spinner);
+		spinneruse.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+			@Override
+			public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> adapterView) {
+
+			}
+		});
 		// Changing action bar background color
 //		getActionBar().setBackgroundDrawable(
 //				new ColorDrawable(Color.parseColor(getResources().getString(
@@ -90,45 +105,45 @@ public class UploadActivity extends Activity {
 			public void onClick(View v) {
 				//Toast.makeText(UploadActivity.this, "i m clicked", Toast.LENGTH_SHORT).show();
 				// uploading the file to server
-//				LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-//				LocationListener locationListener = new LocationListener() {
-//					@Override
-//					public void onLocationChanged(Location location) {
-//						String lat = Double.toString(location.getLatitude());
-//						String lon = Double.toString(location.getLongitude());
-//						latitude=findViewById(R.id.latitude);
-//						longitude=findViewById(R.id.longitude);
-//						latitude.setText("latitude is"+lat);
-//						longitude.setText("longitude is"+lon);
-//					}
-//
-//					@Override
-//					public void onStatusChanged(String provider, int status, Bundle extras) {
-//
-//					}
-//
-//					@Override
-//					public void onProviderEnabled(String provider) {
-//
-//					}
-//
-//					@Override
-//					public void onProviderDisabled(String provider) {
-//
-//					}
-//				};
-//
-//				if (ActivityCompat.checkSelfPermission(UploadActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(UploadActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//					// TODO: Consider calling
-//					//    ActivityCompat#requestPermissions
-//					// here to request the missing permissions, and then overriding
-//					//   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-//					//                                          int[] grantResults)
-//					// to handle the case where the user grants the permission. See the documentation
-//					// for ActivityCompat#requestPermissions for more details.
-//					return;
-//				}
-//				locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+				LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+				LocationListener locationListener = new LocationListener() {
+					@Override
+					public void onLocationChanged(Location location) {
+						lat = Double.toString(location.getLatitude());
+						lon = Double.toString(location.getLongitude());
+						latitude=findViewById(R.id.latitude);
+						longitude=findViewById(R.id.longitude);
+						latitude.setText("latitude is"+lat);
+						longitude.setText("longitude is"+lon);
+					}
+
+					@Override
+					public void onStatusChanged(String provider, int status, Bundle extras) {
+
+					}
+
+					@Override
+					public void onProviderEnabled(String provider) {
+
+					}
+
+					@Override
+					public void onProviderDisabled(String provider) {
+
+					}
+				};
+
+				if (ActivityCompat.checkSelfPermission(UploadActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(UploadActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+					// TODO: Consider calling
+					//    ActivityCompat#requestPermissions
+					// here to request the missing permissions, and then overriding
+					//   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+					//                                          int[] grantResults)
+					// to handle the case where the user grants the permission. See the documentation
+					// for ActivityCompat#requestPermissions for more details.
+					return;
+				}
+				locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
 				new UploadFileToServer().execute();
 
 
@@ -268,7 +283,18 @@ public class UploadActivity extends Activity {
 				.setCancelable(false)
 				.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
-						// do nothing
+
+//						Intent intent=new Intent(UploadActivity.this,MapsActivity.class);
+//						Bundle b=new Bundle();
+//						b.putString("lat",lat);
+//						b.putString("lon",lon);
+//						intent.putExtras(b);
+//						startActivity(intent);// do nothing
+						Intent intent=new Intent(UploadActivity.this,FetchData.class);
+						startActivity(intent);
+
+
+
 					}
 				});
 		AlertDialog alert = builder.create();

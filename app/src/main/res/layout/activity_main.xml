@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/view_background"
+    android:background="@drawable/back"
     android:baselineAligned="false"
     android:orientation="vertical" >
 
@@ -21,9 +21,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
-            android:background="@color/btn_bg"
+            android:background="#000"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
+            android:textSize="18sp"
             android:text="@string/btnTakePicture"
             android:textColor="@color/white" />
 
@@ -41,9 +42,10 @@
             android:id="@+id/btnRecordVideo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/btn_bg"
+            android:background="#000"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
+            android:textSize="18sp"
             android:text="@string/btnRecordVideo"
             android:textColor="@color/white" />
     </LinearLayout>
