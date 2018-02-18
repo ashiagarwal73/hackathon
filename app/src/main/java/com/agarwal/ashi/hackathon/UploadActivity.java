@@ -151,6 +151,10 @@ public class UploadActivity extends Activity {
 			public void onClick(View v) {
 				//Toast.makeText(UploadActivity.this, "i m clicked", Toast.LENGTH_SHORT).show();
 				// uploading the file to server
+				if(discription.getText().toString().equals(""))
+				{
+					discription.setText("No Description");
+				}
 				new UploadFileToServer().execute();
 			}
 		});
@@ -274,7 +278,7 @@ public class UploadActivity extends Activity {
 			Log.e(TAG, "Response from server: " + result);
 
 			// showing the server response in an alert dialog
-			showAlert(result);
+			showAlert("uploaded");
 
 			super.onPostExecute(result);
 		}

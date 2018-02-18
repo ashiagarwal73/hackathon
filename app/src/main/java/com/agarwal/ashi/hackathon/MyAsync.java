@@ -24,12 +24,13 @@ public class MyAsync extends AsyncTask<String,Void,String> {
     Context context;
     GridView gridView;
     String result2,result3="";
+    String result4;
     String output1[]=null;
     ProgressBar progressBar;
     String string;
     String output2[]=null;
     String output3[]=null;
-    //TextView textView;
+    String output4[]=null;    //TextView textView;
     public MyAsync(FetchData context, ProgressBar progressBar, GridView gridView, String string)
     {
         this.context=context;
@@ -49,11 +50,14 @@ public class MyAsync extends AsyncTask<String,Void,String> {
         String url=strings[0];
         String url2=strings[1];
         String url3=strings[2];
+        String url4=strings[3];
         OkHttpClient client = new OkHttpClient();
         Request request1 = new Request.Builder().url(url).build();
         Request request2 = new Request.Builder().url(url2).build();
         Response response1 = null;
         Response response2 = null;
+        Response response4=null;
+        Request request4=new Request.Builder().url(url4).build();
 
         try {
             response1 = client.newCall(request1).execute();
@@ -91,6 +95,18 @@ public class MyAsync extends AsyncTask<String,Void,String> {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        try {
+            response4 = client.newCall(request4).execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            result4= response4.body().string();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return result;
     }
 
@@ -107,6 +123,7 @@ public class MyAsync extends AsyncTask<String,Void,String> {
             output1=s.split("#111#");
             output2=result2.split("#111#");
             output3=result3.split("#111#");
+            output4=result4.split("#111#");
             CustomAdapter customAdapter=new CustomAdapter(context,output1,output2,string);
             gridView.setAdapter(customAdapter);
             gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -120,6 +137,7 @@ public class MyAsync extends AsyncTask<String,Void,String> {
                         b.putStringArray("event_name",output1);
                         b.putStringArray("images", output2);
                         b.putStringArray("poster_desc", output3);
+                        b.putStringArray("revert",output4);
                         b.putInt("position", i);
                         intent.putExtras(b);
                         context.startActivity(intent);

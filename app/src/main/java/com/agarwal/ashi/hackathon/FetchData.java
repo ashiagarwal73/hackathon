@@ -16,7 +16,6 @@ public class FetchData extends AppCompatActivity {
         GridView gridView = findViewById(R.id.gridview);
         ProgressBar progressBar = findViewById(R.id.progress);
         MyAsync my = new MyAsync(FetchData.this, progressBar, gridView,"prodigy");
-        my.execute("http://500052000.000webhostapp.com/Event_name.php", "http://500052000.000webhostapp.com/poster.php","http://upesacm.org/ACM_App/Event_desc.php");
-
+        my.execute("http://500052000.000webhostapp.com/Event_name.php", "http://500052000.000webhostapp.com/poster.php","http://500052000.000webhostapp.com/Event_desc.php","http://500052000.000webhostapp.com/Revertdesc.php");
     }
 }
